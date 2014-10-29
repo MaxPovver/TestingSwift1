@@ -20,7 +20,10 @@ class ViewController: UIViewController /*, UITableViewDataSource, UITableViewDel
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func register(sender )
+    @IBAction func register(sender :UIButton)//это делается при нажатии кнопки регистрацции.
+    {
+        
+    }
 }
 
 /*   func tableView(tableView: UITableView, numberOfRowsInSection section:    Int) -> Int {
