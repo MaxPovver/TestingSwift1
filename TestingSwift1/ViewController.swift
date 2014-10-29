@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController /*, UITableViewDataSource, UITableViewDelegate*/ {
 //@IBOutlet weak var table: UITableView!
-let apiURL="http://momanetwork.com/mobile/api.php?q=" //адрес для запросов к "апи", к нему надо просто прибавить JSON в виде строки
+let apiURL="http://nightquest-pro.1gb.ru/mobile/api.php?q=" //адрес для запросов к "апи", к нему надо просто прибавить JSON в виде строки
 let registerTemplate="{\"action\":\"register\",\"phone\":\"79150000000\"}"//
 let loginTemplate="{\"action\":\"login\",\"username\":\"79153832915\",\"password\":\"12345\"}"//
 let loginResponseTemplate="{\"code\":\"ok\",\"token\":\"<token-val>\"}"
