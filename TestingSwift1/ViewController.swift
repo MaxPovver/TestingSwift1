@@ -27,22 +27,25 @@ var phone = ""
     }
     @IBAction func phoneEdited(sender :UITextField)
     {
-        phone = sender.text //при каждом редактировании сохараняем в нашу переменную новое значение поля
+        self.phone = sender.text //при каждом редактировании сохараняем в нашу переменную новое значение поля
     }
-    
    @IBAction func register(sender :UIButton)//это делается при нажатии кнопки регистрацции.
     {
-         var phoneNumber = phone //вытаскиваем сюда значение телефона, который чувак зарегать хочет
+         var phoneNumber = self.phone //вытаскиваем сюда значение телефона, который чувак зарегать хочет
         if phoneNumber.utf16Count > 5 {//если номер нормальной длины
-            var result = tryRegister()
-            if result.code != "OK" {
+            println("registering  \(self.phone)")
+            /*var result = tryRegister(phoneNumber)
+            if result.code? != "OK" {
                 
-            }
+            }*/
+        }else
+        {
+            println("failed to register \(self.phone)")//здесь будет вывод сообщения "ваш номер слишком длинный" в айфоне
         }
     }
-    func tryRegister(phone :)
+    func tryRegister(phone: NSString)
     {
-        
+        let registerURL="{\"action\":\"register\",\"phone\":\"\(phone)\"}";
     }
 }
 

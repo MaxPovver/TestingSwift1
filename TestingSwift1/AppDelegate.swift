@@ -16,7 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch. !!!
-        println("Hello World")
+       /* let phone = "123456789"
+        let registerURL="{\"action\":\"register\",\"phone\":\"\(phone)\"}"*/
+        println("All ok")
         return true
     }
 
