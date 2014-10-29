@@ -10,12 +10,13 @@ import UIKit
 
 class ViewController: UIViewController /*, UITableViewDataSource, UITableViewDelegate*/ {
 //@IBOutlet weak var table: UITableView!
-let apiURL="https://worlteam-m.com/mobile/api.php?q=" //адрес для запросов к "апи", к нему надо просто прибавить JSON в виде строки
+let apiURL="http://momanetwork.com/mobile/api.php?q=" //адрес для запросов к "апи", к нему надо просто прибавить JSON в виде строки
 let registerTemplate="{\"action\":\"register\",\"phone\":\"79150000000\"}"//
 let loginTemplate="{\"action\":\"login\",\"username\":\"79153832915\",\"password\":\"12345\"}"//
 let loginResponseTemplate="{\"code\":\"ok\",\"token\":\"<token-val>\"}"
 let logoutTemplate="{\"action\":\"logout\",\"token\":\"<token-val>\"}"
 var phone = ""
+var registered=false
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -34,18 +35,46 @@ var phone = ""
          var phoneNumber = self.phone //вытаскиваем сюда значение телефона, который чувак зарегать хочет
         if phoneNumber.utf16Count > 5 {//если номер нормальной длины
             println("registering  \(self.phone)")
-            /*var result = tryRegister(phoneNumber)
-            if result.code? != "OK" {
-                
-            }*/
-        }else
+            self.tryRegister(phoneNumber)
+        }
+        else
         {
-            println("failed to register \(self.phone)")//здесь будет вывод сообщения "ваш номер слишком длинный" в айфоне
+            println("incorrect number \(self.phone)")//здесь будет вывод сообщения "ваш номер слишком длинный" в айфоне
         }
     }
     func tryRegister(phone: NSString)
     {
-        let registerURL="{\"action\":\"register\",\"phone\":\"\(phone)\"}";
+        let registerData="{\"action\":\"register\",\"username\":\"\(phone)\"}"
+        let registerURL=self.apiURL + registerData
+        let encoded = registerURL.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+        println(registerURL+"="+encoded!)
+        var url: NSURL = NSURL(string: encoded!)!
+        var session = NSURLSession.sharedSession()
+        var task = session.dataTaskWithURL(url, completionHandler: {data, response, error -> Void in
+            println("Task completed")
+            if((error) != nil) {
+                println(error.localizedDescription)
+            }
+            var err: NSError?
+            var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSDictionary
+            if (err? != nil) {
+                println(error.localizedDescription)
+            }
+           // println(jsonResult["message"])
+            dispatch_async(dispatch_get_main_queue(), {
+                self.processRegistrationResult(jsonResult)
+            })
+        })
+        task.resume()
+    }
+    func processRegistrationResult(json:NSDictionary)
+    {
+        if (json["code"] as String != "OK" ){
+            println(json["message"] as String)
+        } else
+        {
+            println("Register OK. Wait for SMS with code")
+        }
     }
 }
 
