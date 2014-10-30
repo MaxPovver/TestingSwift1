@@ -46,9 +46,10 @@ var registered=false
     {
         let registerData="{\"action\":\"register\",\"username\":\"\(phone)\"}"
         let registerURL=(self.apiURL + registerData)
-        let encoded = registerURL.stringByReplacingOccurrencesOfString("+", withString: "%2B", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        println(registerURL+"="+encoded)
-        var url: NSURL = NSURL(string: encoded)!
+        let tmp = registerURL.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+        let encoded = tmp?.stringByReplacingOccurrencesOfString("+", withString: "%2B", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        println(registerURL+"="+encoded!)
+        var url: NSURL = NSURL(string: encoded!)!
         var session = NSURLSession.sharedSession()
         var task = session.dataTaskWithURL(url, completionHandler: {data, response, error -> Void in
             println("Task completed")
